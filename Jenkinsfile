@@ -1,4 +1,4 @@
-env.label = "jaf-tck-ci-pod-${UUID.randomUUID().toString()}"
+env.label = "activation-tck-ci-pod-${UUID.randomUUID().toString()}"
 pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
@@ -17,49 +17,57 @@ spec:
     hostnames:
     - "localhost.localdomain"
   containers:
-  - name: jaf-tck-ci
-    image: anajosep/cts-jaf:0.1
+  - name: activation-tck-ci
+    image: jakartaee/cts-jaf-base:0.1
     command:
     - cat
     tty: true
     imagePullPolicy: Always
     resources:
       limits:
-        memory: "8Gi"
-        cpu: "2.0"
+        memory: "3.5Gi"
+        cpu: "1.00"
 """
     }
   }
   parameters {
-    string(name: 'JAF_BUNDLE_URL', 
-           defaultValue: 'http://central.maven.org/maven2/com/sun/activation/javax.activation/1.2.0/javax.activation-1.2.0.jar',
+    string(name: 'ACTIVATION_BUNDLE_URL', 
+           defaultValue: 'https://repo1.maven.org/maven2/com/sun/activation/jakarta.activation/2.0.0/jakarta.activation-2.0.0.jar',
            description: 'URL required for downloading JAF implementation jar' )
+    string(name: 'TCK_BUNDLE_BASE_URL',
+           defaultValue: '',
+           description: 'Base URL required for downloading prebuilt binary TCK Bundle from a hosted location' )
+    string(name: 'TCK_BUNDLE_FILE_NAME', 
+           defaultValue: 'activation-tck-2.0.zip', 
+	   description: 'Name of bundle file to be appended to the base url' )
+    choice(name: 'LICENSE', choices: 'EPL\nEFTL',
+           description: 'License file to be used to build the TCK bundle(s) either EPL(default) or Eclipse Foundation TCK License' )
   }
   environment {
     ANT_OPTS = "-Djavax.xml.accessExternalStylesheet=all -Djavax.xml.accessExternalSchema=all -Djavax.xml.accessExternalDTD=file,http" 
   }
   stages {
-    stage('jaf-tck-build') {
+    stage('activation-tck-build') {
       steps {
-        container('jaf-tck-ci') {
+        container('activation-tck-ci') {
           sh """
             env
-            bash -x ${WORKSPACE}/docker/build_jaftck.sh
+            bash -x ${WORKSPACE}/docker/build_activationtck.sh
           """
           archiveArtifacts artifacts: 'bundles/*.zip'
-          stash includes: 'bundles/*.zip', name: 'jaf-bundles'
+          stash includes: 'bundles/*.zip', name: 'activation-bundles'
         }
       }
     }
   
-    stage('jaf-tck-run') {
+    stage('activation-tck-run') {
       steps {
-        container('jaf-tck-ci') {
+        container('activation-tck-ci') {
           sh """
             env
-            bash -x ${WORKSPACE}/docker/run_jaftck.sh
+            bash -x ${WORKSPACE}/docker/run_activationtck.sh
           """
-          archiveArtifacts artifacts: "jaftck-results.tar.gz"
+          archiveArtifacts artifacts: "*tck-results.tar.gz"
           junit testResults: 'results/junitreports/*.xml', allowEmptyResults: true
         }
       }

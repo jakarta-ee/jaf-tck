@@ -1,22 +1,23 @@
 type=page
 status=published
-title=Technology Compatibility Kit User's Guide for Jakarta EE
+title=TCK User's Guide for Technology Implementors
 next=preface.html
 prev=toc.html
 ~~~~~~
 include::attributes.conf[]
-Technology Compatibility Kit User's Guide for {TechnologyFullName}, Release {TechnologyVersion} for Jakarta EE
-==============================================================================================================
 
-[[oracle]]
+TCK User's Guide for {TechnologyFullName}, Release {TechnologyVersion} for Jakarta EE
+=====================================================================================
+
+[[eclipse-foundation]]
 Eclipse Foundation
-------
+------------------
 
 Technology Compatibility Kit User's Guide for {TechnologyFullName}
 
-Release {TechnologyVersion} for Technology Licensees
+Release {TechnologyVersion} for Jakarta EE
 
-September 2017
+September 2020
 
 [[sthref1]]
 
@@ -25,16 +26,17 @@ September 2017
 Technology Compatibility Kit User's Guide for {TechnologyFullName},
 Release {TechnologyVersion} for Jakarta EE
 
-Copyright (c) 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+Copyright © 2017, 2020 Oracle and/or its affiliates. All rights reserved.
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License v. 2.0, which is available at
+This program and the accompanying materials are made available under
+the terms of the Eclipse Public License v. 2.0, which is available at
 http://www.eclipse.org/legal/epl-2.0.
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the
-Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
-version 2 with the GNU Classpath Exception, which is available at
-https://www.gnu.org/software/classpath/license.html.
+SPDX-License-Identifier: EPL-2.0
 
-SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+Oracle and Java are registered trademarks of Oracle and/or its
+affiliates. Other names may be trademarks of their respective owners.
+
+include::title.inc[]
+
+
